@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+Copyright 2014 Google Inc. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="todo_tracker.css" type="text/css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+  <title>TODO Tracker -- Branch List</title>
+</head>
+<body ng-app="todoTrackerApp">
+  <!-- or "container-fluid" -->
+  <div ng-controller="listBranches">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center csblue"><a href="/">TODO Tracker</a></h1>
+      </div>
+    </div>
+    <div class="row header-bar">
+      <div class="col-md-12">
+        <h4>Branch List</h4>
+      </div>
+    </div>
+  </div>
+  <div class="container" ng-repeat="remote in remotes">
+    <!-- Header to show branches -->
+    <div class="row header-bar-lighter" ng-if="remote.name">
+      <div class="col-md-1">
+        <b>Remote:</b>
+      </div>
+      <div class="col-md-11">
+        {{remote.name}}
+      </div>
+    </div>
+    <div class="row header-bar-lighter" ng-if="!remote.name">
+      <div class="col-md-1">
+        <b>Local:</b>
+      </div>
+    </div>
+
+    <!-- TODO(weizheng): Add the ability to generate a diff of TODOs between two branches. --->
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-11">
+        <div class="row header-bar-text">
+          <div class="col-md-3">
+            <b>Branch</b>
+          </div>
+          <div class="col-md-4">
+            Revision
+          </div>
+          <div class="col-md-5">
+            Last Modified
+          </div>
+        </div>
+        <!-- List each branch -->
+        <div class="row alternate_row" ng-repeat="branch in remote.branches">
+          <div class="col-md-3">
+            {{branch.branch}}
+          </div>
+          <div class="col-md-4">
+            {{branch.revision}} <br>
+            <a href="list_todos_paths.html#?repo={{branch.repo}}&revision={{branch.revision}}">[list by file]</a>
+            <a href="list_todos.html#?repo={{branch.repo}}&revision={{branch.revision}}">[list by revision]</a>
+          </div>
+          <div class="col-md-5">
+            <div ng-show="branch.lastModified != null && branch.lastModified != ''">
+              {{branch.lastModified}} by {{branch.lastModifiedBy}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <script src="todo_tracker.js"></script>
+</body>
+</html>
